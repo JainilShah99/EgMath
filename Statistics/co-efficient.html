@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../images/egmath.jpg" type="">
+    <title>EgMath</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/templatemo-topic-listing.css" rel="stylesheet">
+    <style>
+        .values {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin: 1%;
+            width: 10%;
+        }
+        .dynamicBox, .staticBox {
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 80%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="topics-listing-page" id="top">
+<main>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="bi-back"></i>
+                <span>EgMath</span>
+            </a>
+            <div class="d-lg-none ms-auto me-4">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto"></ul>
+               
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="site-header d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-5 col-12 mb-5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Homepage</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Correlation</li>
+                        </ol>
+                    </nav>
+                    <h2 class="text-white">Correlation <br> Coefficient </h2>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <div class="topics-detail-block bg-white shadow-lg">
+                        <img src="../images/topics/correlationcoefficent.png" class="topics-detail-block-image img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <section class="section-padding section-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <h3 class="mb-4 pb-2">Correlation Coefficient</h3>
+                </div>
+                <div class="col-lg-12 col-24">
+                    <!-- Form for Correlation Coefficient Calculation -->
+                    <form id="complementForm" class="custom-form contact-form" role="form" onsubmit="event.preventDefault(); calculateCorrelation();">
+                        <div class="row">
+                            <select name="number_system1" onchange="generator();" id="number_system" class="form-control" required>
+                                <option value="0">Select Number of Values</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                            <div class="staticBox">
+                                <input type="text" value="X" class="values" readonly>
+                                <input type="text" value="Y" class="values" readonly>
+                            </div>
+                            <div class="dynamicBox">
+                                <!-- Dynamic input boxes will be generated here based on selection -->
+                            </div>
+                            <div class="col-lg-12 col-10">
+                                <button type="submit" class="form-control" name="submit">Calculate</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Displaying Results -->
+                    <div id="result"></div>
+                    <div id="tableDiv"></div>
+                    <script>
+                        function generator() {
+                            let numberofbox = document.getElementById('number_system').value;
+                            let parentElement = document.querySelector('.dynamicBox');
+                            parentElement.innerHTML = '';
+
+                            for (let i = 0; i < numberofbox; i++) {
+                                let lineBreak = document.createElement('br');
+                                parentElement.appendChild(lineBreak);
+
+                                let newChild1 = document.createElement('input');
+                                newChild1.type = 'text';
+                                newChild1.id = 'Xvalues' + i;
+                                newChild1.className = 'values';
+                                parentElement.appendChild(newChild1);
+
+                                let newChild2 = document.createElement('input');
+                                newChild2.type = 'text';
+                                newChild2.id = 'Yvalues' + i;
+                                newChild2.className = 'values';
+                                parentElement.appendChild(newChild2);
+                            }
+                        }
+
+                        function calculateCorrelation() {
+                            let numberofbox = document.getElementById('number_system').value;
+                            let xValues = [];
+                            let yValues = [];
+                            let xSquares = [];
+                            let ySquares = [];
+                            let xyValues = [];
+                            let valid = true;
+
+                            for (let i = 0; i < numberofbox; i++) {
+                                let xVal = document.getElementById('Xvalues' + i).value;
+                                let yVal = document.getElementById('Yvalues' + i).value;
+
+                                if (isNaN(xVal) || isNaN(yVal) || xVal === '' || yVal === '') {
+                                    alert('Please enter valid numbers for all X and Y values.');
+                                    valid = false;
+                                    break;
+                                }
+
+                                xValues.push(parseFloat(xVal));
+                                yValues.push(parseFloat(yVal));
+                                xSquares.push(parseFloat(xVal) ** 2);
+                                ySquares.push(parseFloat(yVal) ** 2);
+                                xyValues.push(parseFloat(xVal) * parseFloat(yVal));
+                            }
+
+                            if (valid) {
+                                let n = xValues.length;
+                                let sumX = xValues.reduce((a, b) => a + b, 0);
+                                let sumY = yValues.reduce((a, b) => a + b, 0);
+                                let sumXY = xyValues.reduce((a, b) => a + b, 0);
+                                let sumX2 = xSquares.reduce((a, b) => a + b, 0);
+                                let sumY2 = ySquares.reduce((a, b) => a + b, 0);
+
+                                let numerator = (n * sumXY) - (sumX * sumY);
+                                let denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+
+                                let correlation = numerator / denominator;
+
+                                if (!isFinite(correlation)) {
+                                    correlation = 0; // Handle division by zero or other invalid cases
+                                }
+
+                                displayResults(correlation, xValues, yValues, xSquares, ySquares, xyValues, sumX, sumY, sumXY, sumX2, sumY2);
+                            }
+                        }
+
+                        function displayResults(correlation, xValues, yValues, xSquares, ySquares, xyValues, sumX, sumY, sumXY, sumX2, sumY2) {
+                            let resultDiv = document.getElementById('result');
+                            resultDiv.innerHTML = `<br><h4>Correlation Coefficient(r): ${correlation.toFixed(2)}</h4>`;
+
+                            let tableDiv = document.getElementById('tableDiv');
+                            let tableHTML = `<table style="font-family: 'Times New Roman'">
+                                <tr>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>X^2</th>
+                                    <th>Y^2</th>
+                                    <th>XY</th>
+                                </tr>`;
+
+                            for (let i = 0; i < xValues.length; i++) {
+                                tableHTML += `<tr>
+                                    <td>${xValues[i]}</td>
+                                    <td>${yValues[i]}</td>
+                                    <td>${xSquares[i]}</td>
+                                    <td>${ySquares[i]}</td>
+                                    <td>${xyValues[i]}</td>
+                                </tr>`;
+                            }
+
+                            tableHTML += `<tr class="bold">
+                                <td>∑X = ${sumX}</td>
+                                <td>∑Y = ${sumY}</td>
+                                <td>∑X^2 = ${sumX2}</td>
+                                <td>∑Y^2 = ${sumY2}</td>
+                                <td>∑XY = ${sumXY}</td>
+                            </tr></table>`;
+
+                            tableDiv.innerHTML = tableHTML;
+
+                            
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12 mb-4 pb-2">
+                <a class="navbar-brand mb-2" href="index.html">
+                    <i class="bi-back"></i>
+                    <span>EgMath</span>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <h6 class="site-footer-title mb-3">Resources</h6>
+                <ul class="site-footer-links">
+                    <li class="site-footer-link-item"><a href="../index.html" class="site-footer-link">Home</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">How it works</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">FAQs</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript Files -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/jquery.sticky.js"></script>
+<script src="../js/custom.js"></script>
+</body>
+</html>

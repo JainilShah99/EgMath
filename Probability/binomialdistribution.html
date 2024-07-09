@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="shortcut icon" href="../images/egmath.jpg" type="">
+        <title>EgMath</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="../css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="../css/templatemo-topic-listing.css" rel="stylesheet">
+<!--
+
+TemplateMo 590 topic listing
+
+https://templatemo.com/tm-590-topic-listing
+
+-->
+    </head>
+    
+    <body class="topics-listing-page" id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <i class="bi-back"></i>
+                        <span>EgMath</span>
+                    </a>
+
+                    <div class="d-lg-none ms-auto me-4">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+    
+                   
+                    
+                </div>
+            </nav>
+
+
+            <header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+
+                        <div class="col-lg-5 col-12 mb-5">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="../index.html">Homepage</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">Binomial Distribution</li>
+                                </ol>
+                            </nav>
+
+                            <h2 class="text-white">Let's Calculate<br>Binomial Distribution</h2>
+
+                            <!-- <div class="d-flex align-items-center mt-5">
+                                <a href="#topics-detail" class="btn custom-btn custom-border-btn smoothscroll me-4">Read More</a>
+
+                                <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
+                            </div> -->
+                        </div>
+
+                        <div class="col-lg-5 col-12">
+                            <div class="topics-detail-block bg-white shadow-lg">
+                                <img src="../images/topics/binomial.png" class="topics-detail-block-image img-fluid">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+            <section class="section-padding section-bg">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-12">
+                <h3 class="mb-4 pb-2"> Binomial Distribution Calculator</h3>
+            
+
+            </div>
+
+            
+
+            <div class="col-lg-12 col-24">
+                <form id="binomialForm" class="custom-form contact-form" role="form">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form-floating">
+                                <input type="number" step="1" name="numberOfTrials" id="numberOfTrials" class="form-control" placeholder="n" required>
+                                <label for="numberOfTrials">Enter Number of Trials n</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form-floating">
+                                <input type="number" step="any" name="probabilityOfSuccess" id="probabilityOfSuccess" class="form-control" placeholder="p" required>
+                                <label for="probabilityOfSuccess">Enter Probability of Success p</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form-floating">
+                                <input type="number" step="1" name="numberOfSuccesses" id="numberOfSuccesses" class="form-control" placeholder="k" required>
+                                <label for="numberOfSuccesses">Enter Number of Successes k</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <button type="submit" class="form-control" name="submit">Submit</button>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <button type="reset" class="form-control" style="background-color:red;color:white" name="cancel">Cancel</button>
+                        </div>
+                    </div>
+
+                </form>
+                <div id="result"></div>
+            </div>
+            
+            <script>
+            document.getElementById('binomialForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+            
+                const n = parseInt(document.getElementById('numberOfTrials').value);
+                const p = parseFloat(document.getElementById('probabilityOfSuccess').value);
+                const k = parseInt(document.getElementById('numberOfSuccesses').value);
+                const resultDiv = document.getElementById('result');
+
+               
+                // Validation
+                if (isNaN(n) || n <= 0 || !Number.isInteger(n)) {
+                    alert('Please enter a valid positive integer for the number of trials.');
+                    return;
+                }
+                if (isNaN(p) || p < 0 || p > 1) {
+                    alert('Please enter a valid probability of success (a number between 0 and 1).');
+                    return;
+                }
+                if (isNaN(k) || k < 0 || k > n || !Number.isInteger(k)) {
+                    alert('Please enter a valid number of successes (an integer between 0 and the number of trials).');
+                    return;
+                }
+
+                const q = 1-p;
+                
+                const mean = n*p ;
+
+                const Variance = n*p*q;
+
+                const sd = Math.sqrt(Variance);
+
+                function factorial(x) {
+                    if (x === 0 || x === 1) return 1;
+                    let result = 1;
+                    for (let i = 2; i <= x; i++) {
+                        result *= i;
+                    }
+                    return result;
+                }
+            
+                function binomialCoefficient(n, k) {
+                    return factorial(n) / (factorial(k) * factorial(n - k));
+                }
+            
+                function binomialProbability(n, k, p) {
+                    const q = 1 - p;
+                    return binomialCoefficient(n, k) * Math.pow(p, k) * Math.pow(q, n - k);
+                }
+            
+                function cumulativeProbabilityLessThan(n, k, p) {
+                    let sum = 0;
+                    for (let i = 0; i < k; i++) {
+                        sum += binomialProbability(n, i, p);
+                    }
+                    return sum;
+                }
+            
+                function cumulativeProbabilityLessThanOrEqual(n, k, p) {
+                    let sum = 0;
+                    for (let i = 0; i <= k; i++) {
+                        sum += binomialProbability(n, i, p);
+                    }
+                    return sum;
+                }
+            
+                function cumulativeProbabilityGreaterThan(n, k, p) {
+                    let sum = 0;
+                    for (let i = k + 1; i <= n; i++) {
+                        sum += binomialProbability(n, i, p);
+                    }
+                    return sum;
+                }
+            
+                function cumulativeProbabilityGreaterThanOrEqual(n, k, p) {
+                    let sum = 0;
+                    for (let i = k; i <= n; i++) {
+                        sum += binomialProbability(n, i, p);
+                    }
+                    return sum;
+                }
+            
+                const binomialProb = binomialProbability(n, k, p);
+                const cumulativeProbLT = cumulativeProbabilityLessThan(n, k, p);
+                const cumulativeProbLTE = cumulativeProbabilityLessThanOrEqual(n, k, p);
+                const cumulativeProbGT = cumulativeProbabilityGreaterThan(n, k, p);
+                const cumulativeProbGTE = cumulativeProbabilityGreaterThanOrEqual(n, k, p);
+            
+                // Display result
+                // const resultContainer = document.createElement('div');
+                resultDiv.innerHTML = `
+                 <div class='col-lg-12 col-md-12 col-24'>   
+                    <div class="form">
+                <textarea name='result' rows="10" style='color:#000000;font-size:18px;' class='form-control' readonly>
+Mean E(X) = ${mean}
+
+Variance V(X) = ${Variance}
+
+Standard Deviation SD(X) = ${sd}
+
+Binomial Probability: P(X=${k}) = ${binomialProb}
+
+Cumulative Probability: P(X<${k}) = ${cumulativeProbLT}
+                    
+Cumulative Probability: P(X≤${k}) = ${cumulativeProbLTE}
+                   
+Cumulative Probability: P(X>${k}) = ${cumulativeProbGT}
+                    
+Cumulative Probability: P(X≥${k}) = ${cumulativeProbGTE}
+                    
+            </textarea>
+                    </div>
+                </div>`;
+               
+            });
+            </script>
+            
+            
+            
+            
+        </div>
+    </div>
+</section>
+
+        </main>
+
+        <footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand mb-2" href="index.html">
+                            <i class="bi-back"></i>
+                            <span>EgMath</span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="site-footer-title mb-3">Resources</h6>
+
+                        <ul class="site-footer-links">
+                            <li class="site-footer-link-item">
+                                <a href="../index.html" class="site-footer-link">Home</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">How it works</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">FAQs</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+            </div>
+        </footer>
+        <!-- JAVASCRIPT FILES -->
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.sticky.js"></script>
+        <script src="../js/custom.js"></script>
+
+    </body>
+</html>
+

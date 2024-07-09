@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../images/egmath.jpg" type="">
+    <title>EgMath</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/templatemo-topic-listing.css" rel="stylesheet">
+    <style>
+        .values {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin: 1%;
+            width: 10%;
+        }
+        .dynamicBox, .staticBox {
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 80%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="topics-listing-page" id="top">
+<main>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi-back"></i>
+                <span>EgMath</span>
+            </a>
+            <div class="d-lg-none ms-auto me-4">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="site-header d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-5 col-12 mb-5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Homepage</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Curve Fitting</li>
+                        </ol>
+                    </nav>
+                    <h2 class="text-white">Let's Calculate
+                        <br> Curve Fitting
+                    </h2>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <div class="topics-detail-block">
+                        <img src="../images/topics/linear regression.2jpg.png" class="topics-detail-block-image img-fluid" id="image1">
+                        <img src="../images/topics/curvefittingpage1.jpg" class="topics-detail-block-image img-fluid" id="image2" style="display:none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <script>
+        function toggleImages() {
+            const img1 = document.getElementById('image1');
+            const img2 = document.getElementById('image2');
+    
+            if (img1.style.display === 'none') {
+                img1.style.display = 'block';
+                img2.style.display = 'none';
+            } else {
+                img1.style.display = 'none';
+                img2.style.display = 'block';
+            }
+        }
+    
+        setInterval(toggleImages, 3000); // Change images every 3 seconds
+    </script>
+    
+
+    <!-- Main Content Section -->
+    <section class="section-padding section-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <h3 class="mb-4 pb-2">Curve Fitting </h3>
+                </div>
+                
+               
+                
+                <div class="col-lg-12 col-24">
+                    <!-- Form for Curve Fitting Calculation -->
+                    <form id="complementForm" class="custom-form contact-form" role="form" onsubmit="event.preventDefault(); calculate();">
+                        <div class="row">
+                            <select name="calculation_type" onchange="showInputs();" id="calculation_type" class="form-control" required>
+                                <option value="0">Select Calculation Type</option>
+                                <option value="linear_regression">Linear Regression</option>
+                                <option value="polynomial_regression">Polynomial Regression</option>
+                            </select>
+                
+                            <div class="col-lg-12 col-md-12 col-24" id="inputDiv" style="display:none;">
+                                <div class="form-floating">
+                                    <input type="number" step="any" name="input_value" id="input_value" class="form-control" placeholder="Enter Input Value" oninput="generateDynamicInputs()">
+                                    <label for="input_value">Number of Data Points</label>
+                                </div>
+                            </div>
+                
+                            <div class="staticBox">
+                                <input type="text" value="X" class="values" readonly id="Xstatic" style="display:none;">
+                                <input type="text" value="Y" class="values" readonly id="Ystatic" style="display:none;">
+                            </div>
+                            <div class="dynamicBox">
+                                <!-- Dynamic input boxes will be generated here based on selection -->
+                            </div>
+                            <div class="col-lg-12 col-10">
+                                <button type="submit" class="form-control" name="submit">Calculate</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Displaying Results -->
+                    <div id="tableDiv"></div>
+                </div>
+                
+                <script>
+                    function showInputs() {
+                        let calculationType = document.getElementById('calculation_type').value;
+                        let displayInputDiv = document.getElementById('inputDiv');
+                        displayInputDiv.style.display = calculationType !== '0' ? 'block' : 'none';
+                        document.getElementById('Xstatic').style.display = calculationType !== '0' ? 'inline-block' : 'none';
+                        document.getElementById('Ystatic').style.display = calculationType !== '0' ? 'inline-block' : 'none';
+                    }
+                
+                    function generateDynamicInputs() {
+                        let numberOfInputs = document.getElementById('input_value').value;
+                        let parentElement = document.querySelector('.dynamicBox');
+                        parentElement.innerHTML = '';
+                
+                        for (let i = 0; i < numberOfInputs; i++) {
+                            let lineBreak = document.createElement('br');
+                            parentElement.appendChild(lineBreak);
+                
+                            let newChild1 = document.createElement('input');
+                            newChild1.type = 'text';
+                            newChild1.id = 'Xvalues' + i;
+                            newChild1.className = 'values';
+                            newChild1.placeholder = 'X' + (i + 1);
+                            parentElement.appendChild(newChild1);
+                
+                            let newChild2 = document.createElement('input');
+                            newChild2.type = 'text';
+                            newChild2.id = 'Yvalues' + i;
+                            newChild2.className = 'values';
+                            newChild2.placeholder = 'Y' + (i + 1);
+                            parentElement.appendChild(newChild2);
+                        }
+                    }
+                
+                    function calculate() {
+                        let calculationType = document.getElementById('calculation_type').value;
+                        let numberOfInputs = document.getElementById('input_value').value;
+                        let xValues = [];
+                        let yValues = [];
+                        let valid = true;
+                
+                        for (let i = 0; i < numberOfInputs; i++) {
+                            let xVal = document.getElementById('Xvalues' + i).value;
+                
+                            if (isNaN(xVal) || xVal === '') {
+                                alert('Please enter valid numbers for all X values.');
+                                valid = false;
+                                break;
+                            }
+                
+                            xValues.push(parseFloat(xVal));
+                
+                            let yVal = document.getElementById('Yvalues' + i).value;
+                
+                            if (isNaN(yVal) || yVal === '') {
+                                alert('Please enter valid numbers for all Y values.');
+                                valid = false;
+                                break;
+                            }
+                
+                            yValues.push(parseFloat(yVal));
+                        }
+                
+                        if (valid) {
+                            let result;
+                            switch (calculationType) {
+                                case 'linear_regression':
+                                    result = calculateLinearRegression(xValues, yValues);
+                                    break;
+                                case 'polynomial_regression':
+                                    result = calculatePolynomialRegression(xValues, yValues);
+                                    break;
+                                default:
+                                    result = null;
+                                    break;
+                            }
+                
+                            displayResults(result, xValues, yValues, calculationType);
+                        }
+                    }
+                
+                    function calculateLinearRegression(x, y) {
+                        let n = x.length;
+                        let sumX = x.reduce((a, b) => a + b, 0);
+                        let sumY = y.reduce((a, b) => a + b, 0);
+                        let sumXY = x.map((xi, i) => xi * y[i]).reduce((a, b) => a + b, 0);
+                        let sumX2 = x.map(xi => xi * xi).reduce((a, b) => a + b, 0);
+                        let sumY2 = y.map(yi => yi * yi).reduce((a, b) => a + b, 0);
+                        let meanX = sumX / n;
+                        let meanY = sumY / n;
+                
+                        let b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
+                        let a = meanY - b * meanX;
+                
+                        return { method: 'Linear Regression', coefficients: { a, b }, sums: { sumX, sumY, sumXY, sumX2, sumY2 }, inputValues: { x, y } };
+                    }
+                
+                    function calculatePolynomialRegression(x, y) {
+                        let n = x.length;
+                        let sumX = x.reduce((a, b) => a + b, 0);
+                        let sumX2 = x.reduce((a, b) => a + b ** 2, 0);
+                        let sumX3 = x.reduce((a, b) => a + b ** 3, 0);
+                        let sumX4 = x.reduce((a, b) => a + b ** 4, 0);
+                        let sumY = y.reduce((a, b) => a + b, 0);
+                        let sumXY = x.reduce((a, b, i) => a + b * y[i], 0);
+                        let sumX2Y = x.reduce((a, b, i) => a + b ** 2 * y[i], 0);
+                        let sumY2 = y.reduce((a, b) => a + b ** 2, 0);
+                
+                        let A = [
+                            [n, sumX, sumX2],
+                            [sumX, sumX2, sumX3],
+                            [sumX2, sumX3, sumX4]
+                        ];
+                
+                        let B = [
+                            sumY,
+                            sumXY,
+                            sumX2Y
+                        ];
+                
+                        function gaussJordanElimination(A, B) {
+                            let m = A.length;
+                            for (let i = 0; i < m; i++) {
+                                let maxEl = Math.abs(A[i][i]);
+                                let maxRow = i;
+                                for (let k = i + 1; k < m; k++) {
+                                    if (Math.abs(A[k][i]) > maxEl) {
+                                        maxEl = Math.abs(A[k][i]);
+                                        maxRow = k;
+                                    }
+                                }
+                
+                                for (let k = i; k < m; k++) {
+                                    let tmp = A[maxRow][k];
+                                    A[maxRow][k] = A[i][k];
+                                    A[i][k] = tmp;
+                                }
+                
+                                let tmp = B[maxRow];
+                                B[maxRow] = B[i];
+                                B[i] = tmp;
+                
+                                for (let k = i + 1; k < m; k++) {
+                                    let c = -A[k][i] / A[i][i];
+                                    for (let j = i; j < m; j++) {
+                                        if (i === j) {
+                                            A[k][j] = 0;
+                                        } else {
+                                            A[k][j] += c * A[i][j];
+                                        }
+                                    }
+                                    B[k] += c * B[i];
+                                }
+                            }
+                
+                            let x = new Array(m);
+                            for (let i = m - 1; i >= 0; i--) {
+                                x[i] = B[i] / A[i][i];
+                                for (let k = i - 1; k >= 0; k--) {
+                                    B[k] -= A[k][i] * x[i];
+                                }
+                            }
+                
+                            return x;
+                        }
+                
+                        let [a, b, c] = gaussJordanElimination(A, B);
+                
+                        return { method: 'Polynomial Regression (2nd degree)', coefficients: { a, b, c }, sums: { sumX, sumY, sumXY, sumX2, sumX3, sumX4, sumX2Y, sumY2 }, inputValues: { x, y } };
+                    }
+                
+                    function displayResults(result, xValues, yValues, calculationType) {
+                        let tableDiv = document.getElementById('tableDiv');
+                        let tableHTML = `<table border="1"><thead><tr><th>X</th><th>Y</th><th>XY</th><th>X²</th><th>Y²</th>`;
+                
+                        if (calculationType === 'polynomial_regression') {
+                            tableHTML += `<th>X³</th><th>X⁴</th><th>X²Y</th>`;
+                        }
+                
+                        tableHTML += `</tr></thead><tbody>`;
+                
+                        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0, sumX3 = 0, sumX4 = 0, sumX2Y = 0;
+                
+                        xValues.forEach((x, i) => {
+                            let y = yValues[i];
+                            let xy = x * y;
+                            let x2 = x ** 2;
+                            let y2 = y ** 2;
+                
+                            tableHTML += `<tr><td>${x}</td><td>${y}</td><td>${xy.toFixed(2)}</td><td>${x2.toFixed(2)}</td><td>${y2.toFixed(2)}</td>`;
+                
+                            if (calculationType === 'polynomial_regression') {
+                                let x3 = x ** 3;
+                                let x4 = x ** 4;
+                                let x2y = x2 * y;
+                
+                                tableHTML += `<td>${x3.toFixed(2)}</td><td>${x4.toFixed(2)}</td><td>${x2y.toFixed(2)}</td>`;
+                                sumX3 += x3;
+                                sumX4 += x4;
+                                sumX2Y += x2y;
+                            }
+                
+                            tableHTML += `</tr>`;
+                
+                            sumX += x;
+                            sumY += y;
+                            sumXY += xy;
+                            sumX2 += x2;
+                            sumY2 += y2;
+                        });
+                
+                        tableHTML += `<tr><td><b>&Sigma; X = ${sumX.toFixed(2)}</b></td><td><b>&Sigma; Y = ${sumY.toFixed(2)}</b></td><td><b>&Sigma; XY = ${sumXY.toFixed(2)}</b></td><td><b>&Sigma; X^2 = ${sumX2.toFixed(2)}</b></td><td><b>&Sigma; Y^2 = ${sumY2.toFixed(2)}</b></td>`;
+                
+                        if (calculationType === 'polynomial_regression') {
+                            tableHTML += `<td><b>&Sigma; X^3 =${sumX3.toFixed(2)}</b></td><td><b>&Sigma; X^4 =${sumX4.toFixed(2)}</b></td><td><b>&Sigma; X^2Y =${sumX2Y.toFixed(2)}</b></td>`;
+                        }
+                
+                        tableHTML += `</tr></tbody></table><br>`;
+                
+                        tableHTML += `<h4>Coefficients:</h4>`;
+                        tableHTML += `<table style="font-family: 'Times New Roman'">
+                            <tr>
+                                <th>Variable</th>
+                                <th>Coefficient</th>
+                            </tr>`;
+                
+                        Object.keys(result.coefficients).forEach(key => {
+                            tableHTML += `<tr>
+                                <td>${key}</td>
+                                <td>${result.coefficients[key].toFixed(2)}</td>
+                            </tr>`;
+                        });
+                
+                        tableHTML += `</table>`;
+                
+                        if (calculationType === 'linear_regression') {
+                            tableHTML += `<br><br><p style='font-size:18px;color:black;'>Equation: Y = ${result.coefficients.a.toFixed(2)} + ${result.coefficients.b.toFixed(2)}X</p>`;
+                        } else if (calculationType === 'polynomial_regression') {
+                            tableHTML += `<br><br><p style='font-size:18px;color:black;'>Equation: Y = ${result.coefficients.a.toFixed(2)} + ${result.coefficients.b.toFixed(2)}X + ${result.coefficients.c.toFixed(2)}X²</p>`;
+                        }
+                
+                        tableDiv.innerHTML = tableHTML;
+                    }
+                </script>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12 mb-4 pb-2">
+                <a class="navbar-brand mb-2" href="index.html">
+                    <i class="bi-back"></i>
+                    <span>EgMath</span>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <h6 class="site-footer-title mb-3">Resources</h6>
+                <ul class="site-footer-links">
+                    <li class="site-footer-link-item"><a href="../index.html" class="site-footer-link">Home</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">How it works</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">FAQs</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript Files -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/jquery.sticky.js"></script>
+<script src="../js/custom.js"></script>
+</body>
+</html>

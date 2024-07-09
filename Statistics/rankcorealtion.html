@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../images/egmath.jpg" type="">
+    <title>EgMath</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/templatemo-topic-listing.css" rel="stylesheet">
+    <style>
+        .values {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin: 1%;
+            width: 10%;
+        }
+        .dynamicBox, .staticBox {
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 80%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="topics-listing-page" id="top">
+<main>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi-back"></i>
+                <span>EgMath</span>
+            </a>
+            <div class="d-lg-none ms-auto me-4">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto"></ul>
+                <div class="d-none d-lg-block">
+                    <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="site-header d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-5 col-12 mb-5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Homepage</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Rank Correlation</li>
+                        </ol>
+                    </nav>
+                    <h2 class="text-white">Spearman's rank 
+                    
+                        <br> correlation coefficient </h2>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <div class="topics-detail-block ">
+                        <img src="../images/topics/rankcorrelation1.png" class="topics-detail-block-image img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <section class="section-padding section-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <h3 class="mb-4 pb-2">Rank Correlation </h3>
+                </div>
+                
+                <div class="col-lg-12 col-24">
+                    <!-- Form for Rank Correlation Calculation -->
+                    <form id="complementForm" class="custom-form contact-form" role="form" onsubmit="event.preventDefault(); calculateRankCorrelation();">
+                        <div class="row">
+                            <select name="number_system1" onchange="showRankValueInput();" id="number_system" class="form-control" required>
+                                <option value="0">Select which is required??</option>
+                                <option value="xy">X,Y</option>
+                                <option value="xyz">X,Y,Z</option>
+                            </select>
+                            
+                            <div class="col-lg-12 col-md-12 col-24" id="rankvalueDiv" style="display:none;">
+                                <div class="form-floating">
+                                    <input type="number" step="any" name="rankvalue" id="rankvalue" class="form-control" placeholder="mean" oninput="generateDynamicInputs()">
+                                    <label for="mean">How Many Number you required??</label>
+                                </div>
+                            </div>
+                
+                            <div class="staticBox">
+                                <input type="text" value="              X" class="values" readonly id="Xstatic" style="display:none;">
+                                <input type="text" value="              Y" class="values" readonly id="Ystatic" style="display:none;">
+                                <input type="text" value="              Z" class="values" readonly id="Zstatic" style="display:none;">
+                            </div>
+                            <div class="dynamicBox">
+                                <!-- Dynamic input boxes will be generated here based on selection -->
+                            </div>
+                            <div class="col-lg-12 col-10">
+                                <button type="submit" class="form-control" name="submit">Calculate</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Displaying Results -->
+                    <div id="result"></div>
+                    <div id="tableDiv"></div>
+                    <script>
+                        function showRankValueInput() {
+                            let selection = document.getElementById('number_system').value;
+                            document.getElementById('rankvalueDiv').style.display = selection !== '0' ? 'block' : 'none';
+                            document.getElementById('Xstatic').style.display = selection !== '0' ? 'inline-block' : 'none';
+                            document.getElementById('Ystatic').style.display = (selection === 'xy' || selection === 'xyz') ? 'inline-block' : 'none';
+                            document.getElementById('Zstatic').style.display = selection === 'xyz' ? 'inline-block' : 'none';
+                        }
+                
+                        function generateDynamicInputs() {
+                            let numberofbox = document.getElementById('rankvalue').value;
+                            let selection = document.getElementById('number_system').value;
+                            let parentElement = document.querySelector('.dynamicBox');
+                            parentElement.innerHTML = '';
+                
+                            for (let i = 0; i < numberofbox; i++) {
+                                let lineBreak = document.createElement('br');
+                                parentElement.appendChild(lineBreak);
+                
+                                let newChild1 = document.createElement('input');
+                                newChild1.type = 'text';
+                                newChild1.id = 'Xvalues' + i;
+                                newChild1.className = 'values';
+                                newChild1.placeholder = 'X' + (i + 1);
+                                parentElement.appendChild(newChild1);
+                
+                                if (selection === 'xy' || selection === 'xyz') {
+                                    let newChild2 = document.createElement('input');
+                                    newChild2.type = 'text';
+                                    newChild2.id = 'Yvalues' + i;
+                                    newChild2.className = 'values';
+                                    newChild2.placeholder = 'Y' + (i + 1);
+                                    parentElement.appendChild(newChild2);
+                                }
+                
+                                if (selection === 'xyz') {
+                                    let newChild3 = document.createElement('input');
+                                    newChild3.type = 'text';
+                                    newChild3.id = 'Zvalues' + i;
+                                    newChild3.className = 'values';
+                                    newChild3.placeholder = 'Z' + (i + 1);
+                                    parentElement.appendChild(newChild3);
+                                }
+                            }
+                        }
+                
+                        function calculateRankCorrelation() {
+                            let selection = document.getElementById('number_system').value;
+                            let numberofbox = document.getElementById('rankvalue').value;
+                            let xValues = [];
+                            let yValues = [];
+                            let zValues = [];
+                            let valid = true;
+                
+                            for (let i = 0; i < numberofbox; i++) {
+                                let xVal = document.getElementById('Xvalues' + i).value;
+                
+                                if (isNaN(xVal) || xVal === '') {
+                                    alert('Please enter valid numbers for all X values.');
+                                    valid = false;
+                                    break;
+                                }
+                
+                                xValues.push(parseFloat(xVal));
+                
+                                if (selection === 'xy' || selection === 'xyz') {
+                                    let yVal = document.getElementById('Yvalues' + i).value;
+                
+                                    if (isNaN(yVal) || yVal === '') {
+                                        alert('Please enter valid numbers for all Y values.');
+                                        valid = false;
+                                        break;
+                                    }
+                
+                                    yValues.push(parseFloat(yVal));
+                                }
+                
+                                if (selection === 'xyz') {
+                                    let zVal = document.getElementById('Zvalues' + i).value;
+                
+                                    if (isNaN(zVal) || zVal === '') {
+                                        alert('Please enter valid numbers for all Z values.');
+                                        valid = false;
+                                        break;
+                                    }
+                
+                                    zValues.push(parseFloat(zVal));
+                                }
+                            }
+                
+                            if (valid) {
+                                let rankCorrelation;
+                                if (selection === 'xy') {
+                                    rankCorrelation = calculateSpearmanRankCorrelation(xValues, yValues);
+                                } else if (selection === 'xyz') {
+                                    rankCorrelation = calculateSpearmanRankCorrelation(xValues, yValues, zValues);
+                                }
+                
+                                displayResults(rankCorrelation, xValues, yValues, zValues);
+                            }
+                        }
+                
+                        function calculateSpearmanRankCorrelation(x, y, z = null) {
+                            let rankX = getRanks(x);
+                            let rankY = getRanks(y);
+                            let rankZ = z ? getRanks(z) : null;
+                
+                            let d = [];
+                            let d2 = [];
+                
+                            for (let i = 0; i < x.length; i++) {
+                                let diff = rankX[i] - rankY[i];
+                                if (rankZ) {
+                                    diff -= rankZ[i];
+                                }
+                                d.push(diff);
+                                d2.push(diff * diff);
+                            }
+                
+                            let n = x.length;
+                            let sumD2 = d2.reduce((a, b) => a + b, 0);
+                            let rankCorrelation = 1 - (6 * sumD2) / (n * (n * n - 1));
+                
+                            return {
+                                rankCorrelation,
+                                d,
+                                d2
+                            };
+                        }
+                
+                        function getRanks(arr) {
+                            let sorted = arr.slice().sort((a, b) => a - b);
+                            let ranks = arr.map(v => sorted.indexOf(v) + 1);
+                            return ranks;
+                        }
+                
+                        function displayResults(correlationData, xValues, yValues, zValues) {
+                            let { rankCorrelation, d, d2 } = correlationData;
+                            let resultDiv = document.getElementById('result');
+                            resultDiv.innerHTML = `<br><h4>Rank Correlation Coefficient ( ρ ): ${rankCorrelation.toFixed(2)}</h4>`;
+                
+                            let tableDiv = document.getElementById('tableDiv');
+                            let tableHTML = `<table style="font-family: 'Times New Roman'">
+                                <tr>
+                                    <th>X</th>
+                                    <th>Rank(X)</th>
+                                    <th>Y</th>
+                                    <th>Rank(Y)</th>
+                                    ${zValues.length ? '<th>Z</th><th>Rank(Z)</th>' : ''}
+                                </tr>`;
+                
+                            let rankX = getRanks(xValues);
+                            let rankY = getRanks(yValues);
+                            let rankZ = zValues.length ? getRanks(zValues) : [];
+                
+                            for (let i = 0; i < xValues.length; i++) {
+                                tableHTML += `<tr>
+                                    <td>${xValues[i]}</td>
+                                    <td>${rankX[i]}</td>
+                                    <td>${yValues[i]}</td>
+                                    <td>${rankY[i]}</td>
+                                    ${zValues.length ? `<td>${zValues[i]}</td><td>${rankZ[i]}</td>` : ''}
+                                </tr>`;
+                            }
+                
+                            tableHTML += `</table><br>`;
+                
+                            tableHTML += `<table style="font-family: 'Times New Roman'">
+                                <tr>
+                                    <th>d</th>
+                                    <th>d²</th>
+                                </tr>`;
+                
+                            for (let i = 0; i < d.length; i++) {
+                                tableHTML += `<tr>
+                                    <td>${d[i]}</td>
+                                    <td>${d2[i]}</td>
+                                </tr>`;
+                            }
+                
+                            tableHTML += `</table>`;
+                            tableDiv.innerHTML = tableHTML;
+                        }
+                    </script>
+                </div>
+                
+                
+                
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12 mb-4 pb-2">
+                <a class="navbar-brand mb-2" href="index.html">
+                    <i class="bi-back"></i>
+                    <span>Topic</span>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <h6 class="site-footer-title mb-3">Resources</h6>
+                <ul class="site-footer-links">
+                    <li class="site-footer-link-item"><a href="../index.html" class="site-footer-link">Home</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">How it works</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">FAQs</a></li>
+                    <li class="site-footer-link-item"><a href="#" class="site-footer-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript Files -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/jquery.sticky.js"></script>
+<script src="../js/custom.js"></script>
+</body>
+</html>

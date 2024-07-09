@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="shortcut icon" href="../images/egmath.jpg" type="">
+        <title>EgMath</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="../css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="../css/templatemo-topic-listing.css" rel="stylesheet">
+<!--
+
+TemplateMo 590 topic listing
+
+https://templatemo.com/tm-590-topic-listing
+
+-->
+    </head>
+    
+    <body class="topics-listing-page" id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <i class="bi-back"></i>
+                        <span>EgMath</span>
+                    </a>
+
+                    <div class="d-lg-none ms-auto me-4">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                            
+    
+                           
+                        </ul>
+
+                        
+                    </div>
+                </div>
+            </nav>
+
+
+            <header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+
+                        <div class="col-lg-5 col-12 mb-5">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="../index.html">Homepage</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">Poisson Distribution</li>
+                                </ol>
+                            </nav>
+
+                            <h2 class="text-white">Let's Calculate<br>Poisson Distribution</h2>
+
+                            <!-- <div class="d-flex align-items-center mt-5">
+                                <a href="#topics-detail" class="btn custom-btn custom-border-btn smoothscroll me-4">Read More</a>
+
+                                <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
+                            </div> -->
+                        </div>
+
+                        <div class="col-lg-5 col-12">
+                            <div class="topics-detail-block bg-white shadow-lg">
+                                <img src="../images/topics/poissondistribution.png" class="topics-detail-block-image img-fluid">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+            <section class="section-padding section-bg">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-12">
+                <h3 class="mb-4 pb-2"> Poisson Distribution Calculator</h3>
+            
+
+            </div>
+
+            
+
+            <div class="col-lg-12 col-24">
+                <form id="poissonForm" class="custom-form contact-form" role="form">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form-floating">
+                                <input type="number" step="any" name="rateParameter" id="rateParameter" class="form-control" placeholder="λ" required>
+                                <label for="rateParameter">Enter Rate Parameter λ</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form-floating">
+                                <input type="number" step="1" name="numberOfEvents" id="numberOfEvents" class="form-control" placeholder="k" required>
+                                <label for="numberOfEvents">Enter Number of Events x</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form">
+                                <input type="text" step="any" name="e" id="e" class="form-control" value=" e=2.71828" placeholder="" readonly >
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-12">
+                            <button type="submit" class="form-control" name="submit">Submit</button>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <button type="reset" class="form-control" style="background-color:red;color:white" name="cancel">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div id="result"></div>
+            </div>
+            
+            <script>
+                document.getElementById('poissonForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+            
+                    // Get form values
+                    const lambda = parseFloat(document.getElementById('rateParameter').value);
+                    const x = parseFloat(document.getElementById('numberOfEvents').value);
+                    const resultDiv = document.getElementById('result');
+            
+                    // Validate that x is a natural number
+                    if (!Number.isInteger(x) || x < 0) {
+                        alert('Please enter a non-negative integer for the number of events.');
+                        return;
+                    }
+                    else if(lambda==0)
+                    {
+                        alert('ERROR : Lamda Value is not 0');
+                        return;
+                    }
+                    else if (lambda<0)
+                    {
+                        alert('ERROR : Lamda Value is Always Positive');
+                        return;
+                    }
+                    else
+                    {
+
+                    
+            
+                    // Calculate Poisson probability for P(X = x)
+                    const poissonProbability = (Math.pow(lambda, x) * Math.exp(-lambda)) / factorial(x);
+            
+                    // Calculate cumulative probabilities for P(X ≤ x) and P(X < x)
+                    let cumulativeProbability = 0;
+                    for (let i = 0; i <= x; i++) {
+                        cumulativeProbability += (Math.pow(lambda, i) * Math.exp(-lambda)) / factorial(i);
+                    }
+                    const lessThanOrEqualProbability = cumulativeProbability;
+                    const lessThanProbability = cumulativeProbability - (Math.pow(lambda, x) * Math.exp(-lambda)) / factorial(x);
+            
+                    // Calculate cumulative probabilities for P(X > x) and P(X ≥ x)
+                    const greaterThanOrEqualProbability = 1 - lessThanProbability;
+                    const greaterThanProbability = 1 - lessThanOrEqualProbability;
+            
+                    // Display result
+                    resultDiv.innerHTML = `<div class='col-lg-12 col-md-12 col-24'>
+                                                <div class='form'>
+                                                    <textarea name='result' rows="10" style='color:#000000;font-size:18px;' class='form-control' readonly>
+                            P(X = ${x}) = ${poissonProbability.toFixed(6)}
+
+                            P(X < ${x}) = ${lessThanProbability.toFixed(6)}
+
+                            P(X ≤ ${x}) = ${lessThanOrEqualProbability.toFixed(6)}
+
+                            P(X > ${x}) = ${greaterThanProbability.toFixed(6)}
+
+                            P(X ≥ ${x}) = ${greaterThanOrEqualProbability.toFixed(6)}
+                                                    </textarea>
+                                                </div>
+                                           </div>`;
+                                        }
+                });
+            
+                function factorial(n) {
+                    return n ? n * factorial(n - 1) : 1;
+                }
+            </script>
+            
+            
+            
+
+
+            <!-- if(lambda==0)
+                    {
+                        alert('ERROR : Lamda Value is not 0');
+                    }
+                    else if(lambda<0)
+                    {
+                        alert('ERROR : Lamda Value is Always Positive');
+                    } 
+                        
+                    
+                      <div class="col-lg-12 col-md-12 col-24">
+                            <div class="form">
+                                <input type="text" step="any" name="e" id="e" class="form-control" value=" e=2.71828" placeholder="" readonly >
+                               
+                            </div>
+                        </div>
+                    -->
+            
+        </div>
+    </div>
+</section>
+
+        </main>
+
+        <footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand mb-2" href="index.html">
+                            <i class="bi-back"></i>
+                            <span>EgMath</span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="site-footer-title mb-3">Resources</h6>
+
+                        <ul class="site-footer-links">
+                            <li class="site-footer-link-item">
+                                <a href="../index.html" class="site-footer-link">Home</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">How it works</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">FAQs</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+
+                   
+                </div>
+            </div>
+        </footer>
+        <!-- JAVASCRIPT FILES -->
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.sticky.js"></script>
+        <script src="../js/custom.js"></script>
+
+    </body>
+</html>
+

@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="images/egmath.jpg" type="">
+        <title>EgMath</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/templatemo-topic-listing.css" rel="stylesheet">      
+        <style>
+
+
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+            /* *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            } */
+
+            #container{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+                width: 90%;
+                border-radius: 6%;
+                height: 130vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(45deg, #1f1f1f, #23282e);
+            }
+
+            #calculator{
+                border: 1px solid #717377;
+                padding: 20px;
+                border-radius: 16px;
+                background: transparent;
+                box-shadow: 0px 3px 15px rgba(113, 115, 119, 0.5);
+
+            }
+
+            #inputBox{
+                width: 320px;
+                border: none;
+                padding: 24px;
+                margin: 10px;
+                background: transparent;
+                box-shadow: 0px 3px 15px rgbs(84, 84, 84, 0.1);
+                font-size: 40px;
+                text-align: right;
+                cursor: pointer;
+                color: #ffffff;
+            }
+
+            #inputBox::placeholder{
+                color: #ffffff;
+            }
+
+            #button1{
+                border: none;
+                width: 60px;
+                height: 60px;
+                margin: 10px;
+                border-radius: 50%;
+                background: transparent;
+                color: #ffffff;
+                font-size: 20px;
+                box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1);
+                cursor: pointer;
+            }
+
+            #button1 .equalBtn{
+                background-color: #fb7c14;
+            }
+
+            #button1 .operator{
+                color: #6dee0a;
+            }
+
+                            /* Intro Message Animation */
+            .intro-message {
+                color: aliceblue;
+                font-size: 2rem;
+                text-align: center;
+                margin-bottom: 20px;
+                animation: fadeIn 1s ease-in-out, bounce 1s infinite, colorChange 5s infinite;
+            }
+
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-30px);
+                }
+                60% {
+                    transform: translateY(-15px);
+                }
+            }
+
+            @keyframes colorChange {
+                0% {
+                    color: aliceblue;
+                }
+                25% {
+                    color: #f39c12;
+                }
+                50% {
+                    color: #e74c3c;
+                }
+                75% {
+                    color: #9b59b6;
+                }
+                100% {
+                    color: aliceblue;
+                }
+            }
+.welcome-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+            
+.welcome-message .card {
+  width: 300px;
+  margin: 0 auto;
+  animation: fadeIn 1s forwards;
+}
+
+.welcome-message .card-body {
+  font-family: cursive;
+  text-align: center;
+}
+
+.welcome-message .card-title {
+    color: #3498db;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.welcome-message .card-text {
+  font-size: 18px;
+  color: #666;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.welcome-message {
+  animation: fadeOut 1s forwards;
+  animation-delay: 3s;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.welcome-message .card-title {
+  
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(113, 134, 226, 0.5);
+}
+
+.welcome-message .card-text {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  animation: circularMotion 2s infinite;
+}
+
+@keyframes circularMotion {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+        
+
+    </style>
+
+    </head>
+    
+    <body id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <i class="bi-back"></i>
+                        <span>EgMath</span>
+                    </a>
+
+                    <div class="d-lg-none ms-auto me-4">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_1">Home</a>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Probability</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="Probability/bayestheorem.html">Baye's Theorem</a></li>
+                                    <li><a class="dropdown-item" href="Probability/poissondistribution.html">Poisson Distribution</a></li>
+                                    <li><a class="dropdown-item" href="Probability/binomialdistribution.html">Binomial Distribution</a></li>     
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Statistics</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="Statistics/co-efficient.html">Correlation Coefficient</a></li>
+                                    <li><a class="dropdown-item" href="Statistics/rankcorealtion.html">Rank Correlation</a></li>
+                                    <li><a class="dropdown-item" href="Statistics/Skewness.html">Skewness</a></li>
+                                    <li><a class="dropdown-item" href="Statistics/curvefitting.html">Curve Fitting</a></li>
+                               </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Number System</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="DF/converter.html">Number Converter</a></li>
+                                    <li><a class="dropdown-item" href="DF/bcd-excess3.html"> Binary to Gray & Gray to Binry</a></li>
+                                    <li><a class="dropdown-item" href="DF/one-two-compliment.html   ">1's & 2's Complements</a></li>
+                                    <li><a class="dropdown-item" href="DF/nine_ten_compliment.html">9's & 10's Complements</a></li>
+                                       </ul>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">DSA</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="DSA/polishnotation.html">Polish notation converter</a></li>
+                                    <li><a class="dropdown-item" href="contact.html">Tree Traversal</a></li>
+                                </ul>
+                            </li>
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_4">FAQs</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_5">Contact</a>
+                            </li>
+
+                           
+                        </ul>
+
+                       
+                    </div>
+                </div>
+            </nav>
+            
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div class="container">
+                    <!-- Add a new div for the welcome message -->
+<div class="welcome-message" id="welcome-message">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title welcome-motion">Welcome to EgMath!</h5>
+        <p class="card-text"><b>Learn. Calculate. Enjoy.</b></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Rest of the HTML code remains the same -->
+                    <div class="row">
+
+                        <div class="col-lg-8 col-12 mx-auto">
+                            <h1 class="text-white text-center">Learn. Calculate. Enjoy</h1>
+
+                            <h6 class="text-center">platform for Ensure Your Answers.</h6>
+
+                            <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bi-search" id="basic-addon1">
+                                        
+                                    </span>
+
+                                    <input name="keyword" type="search" class="form-control" id="keyword" placeholder="Search..." aria-label="Search">
+
+                                    <button type="submit" class="form-control">Search</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <section class="featured-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+
+                        <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                            <div class="custom-block bg-white shadow-lg">
+                                <a href="">
+                                    <div class="d-flex">
+                                        <div>
+                                            <h5 class="mb-2">Mathematics</h5>
+
+                                            <p class="mb-0">Mathematics is a fundamental discipline that underpins many aspects of our daily lives and the sciences. Renowned for its beauty and logical structure, it is essential for solving problems in fields ranging from engineering to economics.</p>
+                                        </div>
+
+                                        
+                                    </div>
+
+                                    <img src="images/topics/maths.jpg" class="custom-block-image img-fluid" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                           
+                            <div class="container" id="container">
+                                
+                                <div class="calculator" id="calculator">
+                                  
+                                    <h3 class="intro-message">Let's Calculate & Enjoy!!😃</h3>
+                                  <input type="text" id="inputBox" placeholder="0" />
+                                  <div>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;">AC</button>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;">DEL</button>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;" >%</button>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;" >/</button>
+                                  </div>
+                                  <div>
+                                    <button id="button1" class="button">7</button>
+                                    <button id="button1" class="button">8</button>
+                                    <button id="button1" class="button">9</button>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;">*</button>
+                                  </div>
+                                  <div>
+                                    <button id="button1" class="button">4</button>
+                                    <button id="button1" class="button">5</button>
+                                    <button id="button1" class="button">6</button>
+                                    <button id="button1" class="button operator" style="color: #6dee0a;">-</button>
+                                  </div>
+                                  <div>
+                                    <button id="button1" class="button">1</button>
+                                    <button id="button1" class="button">2</button>
+                                    <button id="button1" class="button">3</button>
+                                    <button id="button1" class="button1 operator" style="color: #6dee0a;">+</button>
+                                  </div>
+                          
+                                  <div>
+                                    <button id="button1" class="button">00</button>
+                                    <button id="button1" class="button">0</button>
+                                    <button id="button1" class="button">.</button>
+                                    <button id="button1" class="button1 equalBtn" style="background-color:#fb7c14">=</button>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+
+                    let input = document.getElementById('inputBox');
+                    let buttons = document.querySelectorAll('button');
+                    let string = "";
+                    let operators = ['+', '-', '*', '/', '%'];
+                    
+                    buttons.forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            let value = e.target.innerHTML;
+                    
+                            if (value === '=') {
+                                try {
+                                    string = eval(string);
+                                    input.value = string;
+                                } catch (err) {
+                                    alert("Invalid expression");
+                                    string = "";
+                                    input.value = string;
+                                }
+                            } else if (value === 'AC') {
+                                string = "";
+                                input.value = string;
+                            } else if (value === 'DEL') {
+                                string = string.slice(0, -1);
+                                input.value = string;
+                            } else {
+                                let lastChar = string[string.length - 1];
+                    
+                                if (operators.includes(value) && operators.includes(lastChar)) {
+                                    alert("Cannot enter two operators consecutively");
+                                } else {
+                                    string += value;
+                                    input.value = string;
+                                }
+                            }
+                        });
+                    });
+                    
+                    
+                                    </script>
+            </section>
+
+
+            <section class="explore-section section-padding" id="section_2">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12 text-center">
+                            <h2 class="mb-4">Browse Topics</h1>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="design-tab" data-bs-toggle="tab" data-bs-target="#design-tab-pane" type="button" role="tab" aria-controls="design-tab-pane" aria-selected="true">PROBABILITY</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="marketing-tab" data-bs-toggle="tab" data-bs-target="#marketing-tab-pane" type="button" role="tab" aria-controls="marketing-tab-pane" aria-selected="false">STATISTICS</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="finance-tab" data-bs-toggle="tab" data-bs-target="#finance-tab-pane" type="button" role="tab" aria-controls="finance-tab-pane" aria-selected="false">NUMBER SYSTEM</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music-tab-pane" type="button" role="tab" aria-controls="music-tab-pane" aria-selected="false">DSA</button>
+                            </li>
+
+                            
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="design-tab-pane" role="tabpanel" aria-labelledby="design-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">BAYE'S THEOREM</h5>
+
+                                                            <p class="mb-0">Bayes' Theorem helps update the probability of an event based on new evidence, making it essential for data analysis and decision-making.</p>
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <img src="images/topics/bayes.png" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">BINOMIAL DISTRIBUTION</h5>
+
+                                                                <p class="mb-0">The binomial distribution is a discrete probability distribution that describes the number of successes in a fixed number of independent trials of a binary experiment.</p>
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <img src="images/topics/Binomial-Distribution-Formula - Copy.jpg" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">POISSON DISTRIBUTION</h5>
+
+                                                                <p class="mb-0">The Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring within a fixed interval of time or space. </p>
+                                                        </div>
+
+                                                       
+                                                    </div>
+
+                                                    <img src="images/topics/poissondistributionhome.png" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="marketing-tab-pane" role="tabpanel" aria-labelledby="marketing-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">CORRELATION COEFFICENT</h5>
+
+                                                                <p class="mb-0">The Correlation Coefficient quantifies the strength and direction of the linear relationship between two variables, aiding in understanding their dependency.</p>
+                                                            </div>
+
+                                                            
+                                                        </div>
+
+                                                        <img src="images/topics/correlationcoefficent1.png" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">RANK CORRELATION</h5>
+
+                                                                <p class="mb-0">Rank Correlation compares the order of values between two variables, indicating if they move together or in opposite directions without assuming a linear relationship.</p>
+                                                            </div>
+
+                                                            
+                                                        </div>
+
+                                                        <img src="images/topics/rankcorrelation.png" height="80%" width="80%" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">CURVE FITTING</h5>
+
+                                                                <p class="mb-0">Curve Fitting finds the best-fitting curve to a set of data points, helping to model relationships and predict values within the dataset.</p>
+                                                            </div>
+
+                                                            
+                                                        </div>
+
+                                                        <img src="images/topics/curvefitting.png" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">REGRESSION LINE</h5>
+
+                                                                <p class="mb-0">The Regression Line represents the best-fit straight line that predicts the relationship between variables, providing insights into how changes in one variable affect another.</p>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <img src="images/topics/linear regression.jpg" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                  </div>
+
+                            
+
+                                
+                                  <div class="tab-pane fade" id="finance-tab-pane" role="tabpanel" aria-labelledby="finance-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">NUMBER CONVERTER</h5>
+
+                                                            <p class="mb-0">The Number Converter converts numbers between different numerical systems like binary, decimal, and hexadecimal, facilitating easy calculations and conversions.</p>
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <img src="images/topics/numbersystem.jpg" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">1's & 2's COMPLEMENT</h5>
+
+                                                            <p class="mb-0">Invert all the bits of a binary number (0s become 1s and 1s become 0s). Invert all the bits (1's complement) and then add 1 to the least significant bit (LSB).</p>
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <img src="images/topics/one&secondcompliment1.png" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">9's & 10's COMPLEMENT</h5>
+
+                                                            <p class="mb-0">Subtract each digit of a decimal number from 9.Subtract each digit of a decimal number from 9 (9's complement) and then add 1 to the result.</p>
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <img src="images/topics/nine&tencompliment.jpg" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="music-tab-pane" role="tabpanel" aria-labelledby="music-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">TREE DATA STRUCTURE</h5>
+
+                                                            <p class="mb-0">A TREE DATA STRUCTURE organizes data hierarchically, with a root node and child nodes branching out, ideal for representing hierarchical relationships and organizing data efficiently.</p>
+                                                        </div>
+
+                                                       
+                                                    </div>
+
+                                                    <img src="images/topics/tree.png" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">GRAPH DATA STRUCTURE</h5>
+
+                                                            <p class="mb-0">A GRAPH DATA STRUCTURE models relationships between nodes, consisting of vertices connected by edges, enabling versatile representations of networks and complex relationships.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <img src="images/topics/graph1.jpg" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">SEARCHING ALGORITHM</h5>
+
+                                                            <p class="mb-0">A SEARCHING ALGORITHM retrieves information from data structures efficiently, determining the presence and location of a target value within a collection of data, essential for optimizing data retrieval processes.</p>
+                                                        </div>
+
+                                                       
+                                                    </div>
+
+                                                    <img src="images/topics/searching1.jpg" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                              
+
+                            </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+           
+            <section class="faq-section section-padding" id="section_4">
+                <div class="container">
+                    <div class="row">
+            
+                        <div class="col-lg-6 col-12">
+                            <h2 class="mb-4">Frequently Asked Questions</h2>
+                        </div>
+            
+                        <div class="clearfix"></div>
+            
+                        <div class="col-lg-5 col-12">
+                            <img src="images/faq_graphic.jpg" class="img-fluid" alt="FAQs">
+                        </div>
+            
+                        <div class="col-lg-6 col-12 m-auto">
+                            <div class="accordion" id="accordionExample">
+            
+                                <!-- Maths FAQs -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingMaths">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaths" aria-expanded="true" aria-controls="collapseMaths">
+                                            What are the key concepts in Mathematics?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseMaths" class="accordion-collapse collapse show" aria-labelledby="headingMaths" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Mathematics covers a broad spectrum, including algebra, geometry, calculus, and more, essential for understanding patterns, structures, and quantitative relationships.
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Digital Fundamentals FAQs -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingDigital">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDigital" aria-expanded="false" aria-controls="collapseDigital">
+                                            What is a digital circuit?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseDigital" class="accordion-collapse collapse" aria-labelledby="headingDigital" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Digital circuits are electronic circuits that manipulate digital signals (high and low voltage levels) to perform logical operations and store data, forming the basis of computing and electronics.
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Probability FAQs -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingProbability">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProbability" aria-expanded="false" aria-controls="collapseProbability">
+                                            How is probability used in everyday life?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseProbability" class="accordion-collapse collapse" aria-labelledby="headingProbability" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Probability helps predict outcomes and assess risks in various scenarios, from weather forecasting to financial investments, providing insights into uncertainty and decision-making.
+                                        </div>
+                                    </div>
+                                </div>
+            
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </section>
+
+
+           
+        </main>
+
+<footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand mb-2" href="index.html">
+                            <i class="bi-back"></i>
+                            <span>EgMath</span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="site-footer-title mb-3">Resources</h6>
+
+                        <ul class="site-footer-links">
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">Home</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">How it works</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">FAQs</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    
+
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/click-scroll.js"></script>
+        <script src="js/custom.js"></script>
+
+    </body>
+</html>
